@@ -91,7 +91,7 @@ class Mankementen extends Controller
             if (strlen($_POST['mankement']) < 50) {
                 $result = $this->mankementModel->addMankement($_POST);
                 if ($result) {
-                    echo "<h3>de data is opgeslagen</h3>";
+                    echo "<h3>Het nieuwe mankement is toegevoegd</h3>";
                     header('Refresh:3; url=' . URLROOT . '/mankementen/index');
                 } else {
                     echo "<h3>de data is niet opgeslagen</h3>";
@@ -99,7 +99,7 @@ class Mankementen extends Controller
                 }
             } else {
                 echo "Het nieuwe mankement is meer dan 50 tekens lang en is niet toegevoegd, probeer het opnieuw";
-                header('Refresh:3; url=' . URLROOT . '/mankementen/addMankement/' . $result[0]->MAID );
+                header('Refresh:3; url=' . URLROOT . '/mankementen/addMankement/' . $result[0]->MAID);
             }
         } else {
 

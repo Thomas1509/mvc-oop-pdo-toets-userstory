@@ -17,18 +17,20 @@ class Mankement
 
     public function getMankementen()
     {
-        $this->db->query("SELECT Instructeur.Naam as INNA
+        $this->db->query('SELECT Instructeur.Naam as INNA
                                 ,Mankement.Mankement as MANK
                                 ,Mankement.Id AS MAID
                                 ,Instructeur.Email as INEM
                                 ,Auto.Kenteken as AUKE
-                                ,Mankement.Datum
-                          FROM Mankement
+                                ,Mankement.Datum  
+                          FROM Mankement 
                           INNER JOIN auto
                           ON Auto.Id = Mankement.AutoId
                           INNER JOIN Instructeur
                           ON Instructeur.Id = Auto.InstructeurId
-                          WHERE Auto.InstructeurId = :Id");
+                          WHERE Auto.InstructeurId = :Id
+                          ORDER BY Mankement.Datum DESC
+                        ');
 
         $this->db->bind(':Id', 2, PDO::PARAM_INT);
 
