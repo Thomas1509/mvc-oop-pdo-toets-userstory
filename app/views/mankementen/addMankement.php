@@ -14,7 +14,8 @@
     <h3><?= $data['title']; ?></h3>
     <form action="<?= URLROOT; ?>/mankementen/addMankement" method="post">
         <label for="mankement">Mankement</label><br>
-        <input type="text" name="mankement" maxlength="50" id="mankement"><br><br>
+        <input type="text" name="mankement" maxlength="51" required="true" id="mankement"><br><br>
+        <input type="date" name="datum" id="datum"><br><br>
         <input type="hidden" name="id" value="<?= $data['id']; ?>">
         <input type="submit" value="Voer In">
     </form>

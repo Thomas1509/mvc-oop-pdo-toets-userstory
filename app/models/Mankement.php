@@ -58,11 +58,13 @@ class Mankement
 
     public function addMankement($post)
     {
-        $sql = "INSERT INTO mankement (Mankement)
-                VALUES                (:mankement);";
+        $sql = "INSERT INTO mankement (AutoId, Datum, Mankement)
+                VALUES                (:id, :datum, :mankement);";
 
         $this->db->query($sql);
 
+        $this->db->bind(':id', $post['id'], PDO::PARAM_INT);
+        $this->db->bind(':datum', $post['datum'], PDO::PARAM_STR);
         $this->db->bind(':mankement', $post['mankement'], PDO::PARAM_STR);
 
         return $this->db->execute();

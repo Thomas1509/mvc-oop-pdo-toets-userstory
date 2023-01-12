@@ -10,7 +10,7 @@ class Mankementen extends Controller
         $this->mankementModel = $this->model('mankement');
     }
 
-    public function index($id = NULL)
+    public function index()
     {
         $result = $this->mankementModel->getMankementen();
 
@@ -40,7 +40,7 @@ class Mankementen extends Controller
             'instructorName' => $result[0]->INNA,
             'instructorEmail' => $result[0]->INEM,
             'autoKenteken' => $result[0]->AUKE,
-            'mankementenId' => $id
+            'mankementenId' => $result[0]->MAID
         ];
         $this->view('mankementen/index', $data);
     }
@@ -74,31 +74,39 @@ class Mankementen extends Controller
             'rows' => $rows,
             'date' => $date,
             'time' => $time,
-            'mankementId' => $id
+            'mankementenId' => $id
         ];
         $this->view('mankementen/index', $data);
     }
 
-    public function addMankement($id = NULL)
+    public function addMankement()
     {
+        $result = $this->mankementModel->getMankementen();
+
+
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $result = $this->mankementModel->addMankement($_POST);
-
-            if ($result) {
-                echo "<h3>de data is opgeslagen</h3>";
-                header('Refresh:3; url=' . URLROOT . '/mankementen/index');
+            if (strlen($_POST['mankement']) < 50) {
+                $result = $this->mankementModel->addMankement($_POST);
+                if ($result) {
+                    echo "<h3>de data is opgeslagen</h3>";
+                    header('Refresh:3; url=' . URLROOT . '/mankementen/index');
+                } else {
+                    echo "<h3>de data is niet opgeslagen</h3>";
+                    header('Refresh:3; url=' . URLROOT . '/mankementen/index');
+                }
             } else {
-                echo "<h3>de data is niet opgeslagen</h3>";
-                header('Refresh:3; url=' . URLROOT . '/mankementen/index');
+                echo "Het nieuwe mankement is meer dan 50 tekens lang en is niet toegevoegd, probeer het opnieuw";
+                header('Refresh:3; url=' . URLROOT . '/mankementen/addMankement/' . $result[0]->MAID );
             }
         } else {
 
             $data = [
                 'title' => 'Invoeren Mankement',
-                'id' => $id,
+                'autoKenteken' => $result[0]->AUKE,
+                'id' => $result[0]->MAID,
             ];
 
             $this->view('mankementen/addMankement', $data);
