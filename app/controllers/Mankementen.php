@@ -10,11 +10,12 @@ class Mankementen extends Controller
         $this->mankementModel = $this->model('mankement');
     }
 
-    public function index()
+    public function index($id = NULL)
     {
         $result = $this->mankementModel->getMankementen();
 
-        var_dump($result);
+
+        // var_dump($result);
 
         $rows = "";
 
@@ -28,12 +29,7 @@ class Mankementen extends Controller
             $rows .= "<tr>
                         <td>{$dateTimeObj->format('d-m-Y')}</td>
                         <td>{$mankementinfo->MANK}</td>
-                        <td></td>
-                        <td>
-                            <a href='" . URLROOT . "/mankementen/topicmankementen/{$mankementinfo->MAID}'>
-                                <img src='" . URLROOT . "/img/b_sbrowse.png' alt='table picture'>
-                            </a>
-                        </td>
+
                       </tr>";
         }
 
@@ -43,7 +39,8 @@ class Mankementen extends Controller
             'rows' => $rows,
             'instructorName' => $result[0]->INNA,
             'instructorEmail' => $result[0]->INEM,
-            'autoKenteken' => $result[0]->AUKE
+            'autoKenteken' => $result[0]->AUKE,
+            'mankementenId' => $id
         ];
         $this->view('mankementen/index', $data);
     }
@@ -67,7 +64,7 @@ class Mankementen extends Controller
         foreach ($result as $topic) {
 
             $rows .= "<tr>
-                        <td>{$topic->Onderwerp}</td>
+                        <td>{$topic->Mankement}</td>
                       </tr>";
         }
 
@@ -77,18 +74,18 @@ class Mankementen extends Controller
             'rows' => $rows,
             'date' => $date,
             'time' => $time,
-            'mankementenId' => $id
+            'mankementId' => $id
         ];
-        $this->view('mankementen/topicmankementen', $data);
+        $this->view('mankementen/index', $data);
     }
 
-    public function addTopic($id = NULL)
+    public function addMankement($id = NULL)
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $result = $this->mankementModel->addTopic($_POST);
+            $result = $this->mankementModel->addMankement($_POST);
 
             if ($result) {
                 echo "<h3>de data is opgeslagen</h3>";
@@ -100,11 +97,11 @@ class Mankementen extends Controller
         } else {
 
             $data = [
-                'title' => 'Onderwerp Toevoegen',
-                'id' => $id
+                'title' => 'Invoeren Mankement',
+                'id' => $id,
             ];
 
-            $this->view('mankementen/addTopic', $data);
+            $this->view('mankementen/addMankement', $data);
         }
     }
 }

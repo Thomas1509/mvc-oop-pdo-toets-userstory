@@ -56,17 +56,17 @@ class Mankement
         return $this->db->resultSet();
     }
 
-    public function addTopic($post)
+    public function addMankement($post)
     {
-        $sql = "INSERT INTO Onderwerp (LesId
-                                      ,Onderwerp)
-                VALUES                (:lesId,
-                                       :topic);";
+        $sql = "INSERT INTO Mankement (MankementId
+                                      ,Mankement)
+                VALUES                (:mankementId,
+                                       :mankement);";
 
         $this->db->query($sql);
 
-        $this->db->bind(':lesId', $post['id'], PDO::PARAM_INT);
-        $this->db->bind(':topic', $post['topic'], PDO::PARAM_STR);
+        $this->db->bind(':mankementId', $post['id'], PDO::PARAM_INT);
+        $this->db->bind(':mankement', $post['mankement'], PDO::PARAM_STR);
 
         return $this->db->execute();
     }
