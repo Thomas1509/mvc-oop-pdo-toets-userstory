@@ -4,7 +4,7 @@
  * Dit is de model voor de controller Lessen
  */
 
-class Mankement
+class Les
 {
     //properties
     private $db;
@@ -15,24 +15,24 @@ class Mankement
         $this->db = new Database();
     }
 
-    public function getMankementen()
-    {
-        $this->db->query("SELECT Instructeur.Naam as INNA
-                                ,Mankement.Mankement as MANK
-                                ,Mankement.Id AS MAID
-                                ,Instructeur.Email as INEM
-                                ,Auto.Kenteken as AUKE
-                          FROM Mankement
-                          INNER JOIN auto
-                          ON Auto.Id = Mankement.AutoId
-                          INNER JOIN Instructeur
-                          ON Instructeur.Id = Auto.InstructeurId
-                          WHERE Auto.InstructeurId = :Id");
+    // public function getLessen()
+    // {
+    //     $this->db->query("SELECT Les.DatumTijd
+    //                             ,Les.Id as LEID
+    //                             ,Leerling.Id
+    //                             ,Leerling.Naam as LEEM
+    //                             ,Instructeur.Naam as INNA
+    //                       FROM Les
+    //                       INNER JOIN Leerling
+    //                       ON Leerling.Id = Les.LeerlingId
+    //                       INNER JOIN Instructeur
+    //                       ON Instructeur.Id = Les.InstructeurId
+    //                       WHERE Les.InstructeurId = :Id");
 
-        $this->db->bind(':Id', 2, PDO::PARAM_INT);
+    //     $this->db->bind(':Id', 2, PDO::PARAM_INT);
 
-        return $this->db->resultSet();
-    }
+    //     return $this->db->resultSet();
+    // }
 
     public function getTopics($mankementId)
     {

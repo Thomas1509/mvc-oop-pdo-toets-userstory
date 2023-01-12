@@ -12,24 +12,25 @@ class Mankementen extends Controller
 
     public function index()
     {
-        $result = $this->mankementModel->getmankementen();
+        $result = $this->mankementModel->getMankementen();
 
         // var_dump($result);
 
         $rows = "";
 
         foreach ($result as $mankementinfo) {
-            $dateTimeObj = 
-                new DateTimeImmutable($mankementinfo->DatumTijd, 
-                                      new DateTimeZone('Europe/Amsterdam'));
-            // var_dump($dateTimeObj);
+            $dateTimeObj =
+                new DateTimeImmutable(
+                    $mankementinfo->DatumTijd,
+                    new DateTimeZone('Europe/Amsterdam')
+                );
+            var_dump($dateTimeObj);
             $rows .= "<tr>
                         <td>{$dateTimeObj->format('d-m-Y')}</td>
-                        <td>{$dateTimeObj->format('H:i')}</td>
-                        <td>{$mankementinfo->LENA}</td>
+                        <td>{$mankementinfo->MANK}</td>
                         <td></td>
                         <td>
-                            <a href='" . URLROOT . "/mankementen/topicmankementen/{$mankementinfo->LEID}'>
+                            <a href='" . URLROOT . "/mankementen/topicmankementen/{$mankementinfo->MAID}'>
                                 <img src='" . URLROOT . "/img/b_sbrowse.png' alt='table picture'>
                             </a>
                         </td>
@@ -40,7 +41,9 @@ class Mankementen extends Controller
         $data = [
             'title' => 'Overzicht mankementen',
             'rows' => $rows,
-            'instructorName' => $result[0]->INNA
+            'instructorName' => $result[0]->INNA,
+            'instructorEmail' => $result[0]->INEM,
+            'autoKenteken' => $result[0]->AUKE
         ];
         $this->view('mankementen/index', $data);
     }
@@ -51,9 +54,9 @@ class Mankementen extends Controller
         $result = $this->mankementModel->getTopics($id);
 
         if ($result) {
-            $dt = new DateTimeImmutable($result[0]->DatumTijd, new DateTimeZone('Europe/Amsterdam'));
+            $dt = new DateTimeImmutable($result[0]->Datum, new DateTimeZone('Europe/Amsterdam'));
             $date = $dt->format('d-m-Y');
-            $time = $dt->format('H:i');            
+            $time = $dt->format('H:i');
         } else {
             $date = "";
             $time = "";
@@ -79,15 +82,15 @@ class Mankementen extends Controller
         $this->view('mankementen/topicmankementen', $data);
     }
 
-    public function addTopic($id = NULL) 
+    public function addTopic($id = NULL)
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            
+
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $result = $this->mankementModel->addTopic($_POST);
 
-            if($result) {
+            if ($result) {
                 echo "<h3>de data is opgeslagen</h3>";
                 header('Refresh:3; url=' . URLROOT . '/mankementen/index');
             } else {
@@ -98,11 +101,10 @@ class Mankementen extends Controller
 
             $data = [
                 'title' => 'Onderwerp Toevoegen',
-                'id' =>$id
+                'id' => $id
             ];
-    
+
             $this->view('mankementen/addTopic', $data);
         }
-
     }
 }
