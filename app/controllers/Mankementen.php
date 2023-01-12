@@ -14,17 +14,17 @@ class Mankementen extends Controller
     {
         $result = $this->mankementModel->getMankementen();
 
-        // var_dump($result);
+        var_dump($result);
 
         $rows = "";
 
         foreach ($result as $mankementinfo) {
             $dateTimeObj =
                 new DateTimeImmutable(
-                    $mankementinfo->DatumTijd,
+                    $mankementinfo->Datum,
                     new DateTimeZone('Europe/Amsterdam')
                 );
-            var_dump($dateTimeObj);
+            // var_dump($dateTimeObj);
             $rows .= "<tr>
                         <td>{$dateTimeObj->format('d-m-Y')}</td>
                         <td>{$mankementinfo->MANK}</td>

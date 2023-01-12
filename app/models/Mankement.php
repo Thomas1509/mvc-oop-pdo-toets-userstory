@@ -22,6 +22,7 @@ class Mankement
                                 ,Mankement.Id AS MAID
                                 ,Instructeur.Email as INEM
                                 ,Auto.Kenteken as AUKE
+                                ,Mankement.Datum
                           FROM Mankement
                           INNER JOIN auto
                           ON Auto.Id = Mankement.AutoId
@@ -43,7 +44,7 @@ class Mankement
                 FROM Mankement
                 INNER JOIN Auto
                 ON Auto.Id = Mankement.AutoId
-                WHERE MankementId = :mankementId";
+                WHERE Mankement.Id = :mankementId";
 
         // Prepareer je query
         $this->db->query($sql);

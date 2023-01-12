@@ -11,4 +11,10 @@
     <tbody>
         <?= $data['rows']; ?>
     </tbody>
+    
 </table>
+
+<br>
+<a href="<?= URLROOT; ?>/mankementen/addTopic/<?= $data['lessonId']; ?>">
+    <input type="button" value="Onderwerp Toevoegen">
+</a>
